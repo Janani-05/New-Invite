@@ -1,4 +1,4 @@
-// Force the page to always load at the top (Hero Section)
+// Force browser to always open at top on initial load/refresh
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
@@ -8,34 +8,65 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo(0, 0);
 
     /* ==========================================
-       0. AUTOPLAY AUDIO ON INTERACTION
+       0. AUDIO & FLOATING TOGGLE
        ========================================== */
     const audio = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicToggle');
+    let isPlaying = false;
 
-    const startAudio = () => {
-        if (audio) {
-            audio.play().then(() => {
-                console.log("Audio playing successfully");
-            }).catch(e => console.log("Audio play blocked:", e));
+    function playAudio() {
+        if (!audio) return;
+        audio.play().then(() => {
+            isPlaying = true;
+            if (musicBtn) musicBtn.classList.add('playing');
+        }).catch(err => {
+            console.log("Autoplay waiting for user interaction:", err);
+        });
+    }
+
+    function pauseAudio() {
+        if (!audio) return;
+        audio.pause();
+        isPlaying = false;
+        if (musicBtn) musicBtn.classList.remove('playing');
+    }
+
+    // Play on first user interaction anywhere on screen
+    const handleFirstInteraction = () => {
+        if (!isPlaying) {
+            playAudio();
         }
-        ['click', 'touchstart', 'scroll', 'mousedown'].forEach(evt => {
-            document.removeEventListener(evt, startAudio);
+        ['click', 'touchstart', 'scroll'].forEach(evt => {
+            document.removeEventListener(evt, handleFirstInteraction);
         });
     };
 
-    ['click', 'touchstart', 'scroll', 'mousedown'].forEach(evt => {
-        document.addEventListener(evt, startAudio, { once: true });
+    ['click', 'touchstart', 'scroll'].forEach(evt => {
+        document.addEventListener(evt, handleFirstInteraction, { once: true });
     });
 
+    // Toggle button handler
+    if (musicBtn) {
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isPlaying) {
+                pauseAudio();
+            } else {
+                playAudio();
+            }
+        });
+    }
+
     /* ==========================================
-       1. PRELOADER
+       1. PRELOADER & TOP SCROLL
        ========================================== */
     const loader = document.getElementById('loader');
     window.addEventListener('load', () => {
         window.scrollTo(0, 0);
         setTimeout(() => {
             if (loader) loader.classList.add('fade-out');
-        }, 600);
+            window.scrollTo(0, 0);
+        }, 500);
     });
 
     /* ==========================================
@@ -45,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const particleCount = 60;
+        const particleCount = 50;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -64,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = -Math.random() * 0.6 - 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = -Math.random() * 0.5 - 0.2;
                 this.opacity = Math.random() * 0.6 + 0.2;
                 this.color = `rgba(212, 175, 55, ${this.opacity})`;
             }
@@ -150,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pos = getScratchPos(e);
             sCtx.globalCompositeOperation = 'destination-out';
             sCtx.beginPath();
-            sCtx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
+            sCtx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
             sCtx.fill();
         }
 
