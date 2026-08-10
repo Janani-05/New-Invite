@@ -10,12 +10,12 @@
 </head>
 <body>
 
-    <!-- Audio Player -->
+    <!-- Background Music -->
     <audio id="bgMusic" loop preload="auto">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Tap to Open Envelope Overlay -->
+    <!-- Tap to Open Envelope Screen -->
     <div id="entranceOverlay" class="entrance-overlay">
         <div class="envelope-container" id="enterBtn">
             <div class="v-flap"></div>
@@ -30,13 +30,53 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Website Content -->
     <main class="main-content">
+        
+        <!-- Hero Banner -->
         <section class="hero-section">
-            <p class="tagline">#ShaMa</p>
-            <h1 class="couple-names">Sheshathri <br><span>&amp;</span><br> Janani</h1>
-            <p class="wedding-date">August 2026</p>
+            <p class="tagline">✨ TOGETHER WITH THEIR FAMILIES ✨</p>
+            <h1 class="couple-names">M.S. Sheshathri <br><span class="amp">&amp;</span><br> S. Janani</h1>
+            <p class="hero-sub">Invite you to celebrate their wedding reception</p>
         </section>
+
+        <hr class="divider">
+
+        <!-- Event Details -->
+        <section class="event-details">
+            <h2 class="section-title">Event Details</h2>
+            
+            <div class="info-card">
+                <i class="fa-solid fa-calendar-days icon"></i>
+                <h3>Date &amp; Time</h3>
+                <p>August 2026</p>
+                <p>Reception: 6:00 PM Onwards</p>
+            </div>
+
+            <div class="info-card">
+                <i class="fa-solid fa-location-dot icon"></i>
+                <h3>Venue</h3>
+                <p>Grand Palace Hall</p>
+                <p>Tamil Nadu, India</p>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section">
+            <h2 class="section-title">Counting Down To The Big Day</h2>
+            <div class="timer">
+                <div class="time-box"><span id="days">00</span><p>Days</p></div>
+                <div class="time-box"><span id="hours">00</span><p>Hours</p></div>
+                <div class="time-box"><span id="minutes">00</span><p>Mins</p></div>
+                <div class="time-box"><span id="seconds">00</span><p>Secs</p></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>#ShaMa Wedding | We look forward to seeing you!</p>
+        </footer>
+
     </main>
 
     <script src="script.js"></script>
