@@ -14,15 +14,32 @@
 </head>
 <body>
 
-    <!-- Entrance Overlay with S & J Monogram -->
+    <!-- Animated Envelope Entrance Overlay -->
     <div id="entranceOverlay" class="entrance-overlay">
-        <div class="entrance-card">
-            <span class="hashtag">#ShaMa</span>
-            <div class="overlay-monogram">S &amp; J</div>
-            <h2>M.S. Sheshathri <br>&amp;<br> S. Janani</h2>
-            <p>We invite you to celebrate our Wedding Reception</p>
+        <div class="envelope-wrapper">
+            <span class="hashtag-pill">✨ #ShaMa ✨</span>
+            
+            <div class="envelope-container" id="envelopeBtn">
+                <!-- Flap of Envelope -->
+                <div class="flap"></div>
+                
+                <!-- Animated Floating Elements -->
+                <div class="butterfly b1">🦋</div>
+                <div class="butterfly b2">🦋</div>
+                <div class="monogram-heart">S ❤️ J</div>
+                
+                <!-- Envelope Body -->
+                <div class="envelope-body">
+                    <div class="letter-preview">
+                        <h3>M.S. Sheshathri</h3>
+                        <span class="and-sym">&amp;</span>
+                        <h3>S. Janani</h3>
+                    </div>
+                </div>
+            </div>
+
             <button id="enterBtn" class="btn-gold start-btn">
-                S &amp; J | Tap to Open 🎵
+                <i class="fa-solid fa-envelope-open"></i> Tap Envelope to Open 🎵
             </button>
         </div>
     </div>
