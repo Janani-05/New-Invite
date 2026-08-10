@@ -29,6 +29,11 @@
     <!-- Background Particle Canvas -->
     <canvas id="particleCanvas"></canvas>
 
+    <!-- Floating Audio Control Button -->
+    <button id="musicToggle" class="music-toggle-btn" aria-label="Toggle Music">
+        <i class="fa-solid fa-music"></i>
+    </button>
+
     <!-- Hero Section -->
     <header class="hero-section" id="hero">
         <div class="hero-overlay"></div>
@@ -150,7 +155,8 @@
             <div class="closing-card">
                 <i class="fa-solid fa-heart heart-icon"></i>
                 <h2 class="closing-quote">"Your Presence Will Make Our Celebration Truly Special"</h2>
-                <p class="closing-names">With Love, M.S. SHESHATHRI ❤️ S. JANANI</p>
+                <p class="closing-prefix">With Love,</p>
+                <p class="closing-names">M.S. SHESHATHRI <span class="heart-inline">❤️</span> S. JANANI</p>
                 <div class="closing-hashtag">#ShaMa</div>
             </div>
         </section>
@@ -161,9 +167,9 @@
         <p>&copy; 2026 M.S. SHESHATHRI & S. JANANI. All Rights Reserved.</p>
     </footer>
 
-    <!-- Audio Element for Autoplay Background Music -->
+    <!-- Audio Element -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="dheema.mp3" type="audio/mpeg">
+        <source src="Seelay.mp3" type="audio/mpeg">
     </audio>
 
     <script src="script.js"></script>
