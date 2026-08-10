@@ -1,159 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Reception | M.S. Sheshathri & S. Janani</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+document.addEventListener('DOMContentLoaded', () => {
 
-    <!-- Entrance Overlay with S & J Monogram -->
-    <div id="entranceOverlay" class="entrance-overlay">
-        <div class="entrance-card">
-            <span class="hashtag">#ShaMa</span>
-            <div class="overlay-monogram">S &amp; J</div>
-            <h2>M.S. Sheshathri <br>&amp;<br> S. Janani</h2>
-            <p>We invite you to celebrate our Wedding Reception</p>
-            <button id="enterBtn" class="btn-gold start-btn">
-                S &amp; J | Tap to Open 🎵
-            </button>
-        </div>
-    </div>
+    /* ==========================================
+       1. AUDIO PLAYBACK & OVERLAY CONTROLS
+       ========================================== */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const entranceOverlay = document.getElementById('entranceOverlay');
+    const enterBtn = document.getElementById('enterBtn');
+    let isPlaying = false;
 
-    <!-- Background Particle Canvas -->
-    <canvas id="particleCanvas"></canvas>
+    function playAudio() {
+        if (!bgMusic) return;
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            if (musicIcon) musicIcon.className = 'fa-solid fa-compact-disc fa-spin';
+            if (musicBtn) musicBtn.classList.add('playing');
+        }).catch(err => {
+            console.log("Audio playback error:", err);
+        });
+    }
 
-    <!-- Floating Music Button -->
-    <button id="musicBtn" class="music-btn" aria-label="Toggle Music">
-        <i id="musicIcon" class="fa-solid fa-music"></i>
-    </button>
+    if (enterBtn) {
+        enterBtn.addEventListener('click', () => {
+            playAudio();
+            if (entranceOverlay) {
+                entranceOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    entranceOverlay.style.display = 'none';
+                }, 500);
+            }
+        });
+    }
 
-    <!-- Background Audio (Dheema Song) -->
-    <audio id="bgMusic" loop preload="auto" playsinline>
-        <source src="dheema.mp3" type="audio/mpeg">
-        <source src="./dheema.mp3" type="audio/mpeg">
-    </audio>
+    if (musicBtn) {
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!bgMusic) return;
 
-    <!-- Hero Section -->
-    <header class="hero-section">
-        <div class="hero-content fade-in">
-            <span class="hashtag">#ShaMa</span>
-            <div class="monogram">S & J</div>
-            <p class="tagline">Together with their families, invite you to celebrate the Wedding Reception of</p>
-            <h1 class="groom-bride">M.S. Sheshathri <span class="ampersand">&amp;</span> S. Janani</h1>
-            <div class="divider">
-                <span class="line"></span>
-                <i class="fa-solid fa-gem gold-icon"></i>
-                <span class="line"></span>
-            </div>
-            <p class="event-date-highlight"><i class="fa-regular fa-calendar-check"></i> Saturday, 12th September 2026</p>
-            <a href="#scratch-section" class="btn-gold scroll-btn">Reveal Special Invitation <i class="fa-solid fa-chevron-down"></i></a>
-        </div>
-    </header>
+            if (isPlaying) {
+                bgMusic.pause();
+                if (musicIcon) musicIcon.className = 'fa-solid fa-volume-xmark';
+                if (musicBtn) musicBtn.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                playAudio();
+            }
+        });
+    }
 
-    <main class="main-container">
+    /* ==========================================
+       2. GOLD DUST CANVAS PARTICLES
+       ========================================== */
+    const canvas = document.getElementById('particleCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 50;
 
-        <!-- Scratch Card Section -->
-        <section id="scratch-section" class="scratch-section scroll-reveal">
-            <div class="section-title">
-                <span class="sub-title">An Exclusive Reveal</span>
-                <h2>Scratch Your Invitation</h2>
-                <div class="gold-underline"></div>
-            </div>
-            <p class="scratch-instruction">Scratch the gold card below using your mouse or finger to unveil the message!</p>
-            
-            <div class="scratch-card-wrapper">
-                <div class="scratch-reveal-content">
-                    <i class="fa-solid fa-crown crown-icon"></i>
-                    <h3>Cordially Invited</h3>
-                    <p>We request the pleasure of your company at our Wedding Reception as we embark on this beautiful journey of togetherness.</p>
-                    <div class="time-badge">
-                        <i class="fa-regular fa-clock"></i> 7:00 PM Onwards
-                    </div>
-                </div>
-                <canvas id="scratchCanvas" width="340" height="220"></canvas>
-            </div>
-        </section>
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
 
-        <!-- Countdown Section -->
-        <section class="countdown-section scroll-reveal">
-            <div class="section-title">
-                <span class="sub-title">The Grand Event Begins In</span>
-                <h2>Countdown To Celebration</h2>
-                <div class="gold-underline"></div>
-            </div>
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-            <div class="timer-container" id="timer">
-                <div class="time-box"><span id="days" class="time-num">00</span><span class="time-label">Days</span></div>
-                <div class="time-box"><span id="hours" class="time-num">00</span><span class="time-label">Hours</span></div>
-                <div class="time-box"><span id="minutes" class="time-num">00</span><span class="time-label">Minutes</span></div>
-                <div class="time-box"><span id="seconds" class="time-num">00</span><span class="time-label">Seconds</span></div>
-            </div>
-        </section>
+        class Particle {
+            constructor() {
+                this.reset();
+            }
 
-        <!-- Reception & Venue Details -->
-        <section class="venue-section scroll-reveal">
-            <div class="section-title">
-                <span class="sub-title">Where &amp; When</span>
-                <h2>Reception Details</h2>
-                <div class="gold-underline"></div>
-            </div>
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = -Math.random() * 0.5 - 0.2;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.color = `rgba(212, 175, 55, ${this.opacity})`;
+            }
 
-            <div class="venue-card">
-                <div class="card-inner">
-                    <div class="venue-icon">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </div>
-                    <h3>Sumangali Thirumana Mahal</h3>
-                    <p class="venue-address">
-                        <i class="fa-solid fa-location-dot gold-icon"></i> Salem, Tamil Nadu, India
-                    </p>
-                    <div class="venue-info-grid">
-                        <div class="info-item">
-                            <i class="fa-solid fa-calendar-day"></i>
-                            <div>
-                                <h4>Date</h4>
-                                <p>12 September 2026</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fa-solid fa-clock"></i>
-                            <div>
-                                <h4>Timing</h4>
-                                <p>7:00 PM Onwards</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="https://maps.google.com/?q=Sumangali+Thirumana+Mahal+Salem" target="_blank" rel="noopener noreferrer" class="btn-gold map-btn">
-                        <i class="fa-solid fa-map-location-dot"></i> Open Location in Google Maps
-                    </a>
-                </div>
-            </div>
-        </section>
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
 
-        <!-- Closing Message -->
-        <section class="closing-section scroll-reveal">
-            <div class="closing-card">
-                <i class="fa-solid fa-heart heart-icon"></i>
-                <h2 class="closing-quote">"Your Presence Will Make Our Celebration Truly Special"</h2>
-                <p class="closing-names">With Love, M.S. Sheshathri ❤️ S. Janani</p>
-                <div class="closing-hashtag">#ShaMa</div>
-            </div>
-        </section>
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                    this.y = canvas.height + 10;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
 
-    </main>
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
 
-    <footer>
-        <p>&copy; 2026 M.S. Sheshathri &amp; S. Janani. All Rights Reserved.</p>
-    </footer>
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
 
-    <script src="script.js"></script>
-</body>
-</html>
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    }
+
+    /* ==========================================
+       3. GOLD SCRATCH CARD EFFECT
+       ========================================== */
+    const scratchCanvas = document.getElementById('scratchCanvas');
+    if (scratchCanvas) {
+        const sCtx = scratchCanvas.getContext('2d');
+        let isScratching = false;
+
+        function initScratchCard() {
+            const rect = scratchCanvas.parentElement.getBoundingClientRect();
+            scratchCanvas.width = rect.width;
+            scratchCanvas.height = rect.height;
+
+            const grad = sCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
+            grad.addColorStop(0, '#bf953f');
+            grad.addColorStop(0.25, '#fcf6ba');
+            grad.addColorStop(0.5, '#b38728');
+            grad.addColorStop(0.75, '#fbf5b7');
+            grad.addColorStop(1, '#aa7c11');
+
+            sCtx.fillStyle = grad;
+            sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+
+            sCtx.font = 'bold 16px Cinzel';
+            sCtx.fillStyle = '#111111';
+            sCtx.textAlign = 'center';
+            sCtx.fillText('✨ SCRATCH HERE ✨', scratchCanvas.width / 2, scratchCanvas.height / 2);
+        }
+
+        initScratchCard();
+
+        function getScratchPos(e) {
+            const rect = scratchCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        function scratch(e) {
+            if (!isScratching) return;
+            e.preventDefault();
+            const pos = getScratchPos(e);
+            sCtx.globalCompositeOperation = 'destination-out';
+            sCtx.beginPath();
+            sCtx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
+            sCtx.fill();
+        }
+
+        scratchCanvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
+        scratchCanvas.addEventListener('mousemove', scratch);
+        window.addEventListener('mouseup', () => { isScratching = false; });
+
+        scratchCanvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+        scratchCanvas.addEventListener('touchmove', scratch);
+        window.addEventListener('touchend', () => { isScratching = false; });
+    }
+
+    /* ==========================================
+       4. COUNTDOWN TIMER
+       ========================================== */
+    const targetDate = new Date('2026-09-12T19:00:00+05:30').getTime();
+
+    function updateTimer() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        const timerContainer = document.getElementById('timer');
+        if (!timerContainer) return;
+
+        if (diff <= 0) {
+            timerContainer.innerHTML = '<h3 style="color:var(--gold-light);">The Reception Has Begun!</h3>';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    /* ==========================================
+       5. SCROLL ANIMATIONS
+       ========================================== */
+    const reveals = document.querySelectorAll('.scroll-reveal');
+
+    function revealOnScroll() {
+        const windowHeight = window.innerHeight;
+        reveals.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            if (elementTop < windowHeight - 100) {
+                element.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+});
