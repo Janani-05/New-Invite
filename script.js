@@ -8,19 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo(0, 0);
 
     /* ==========================================
-       0. AUDIO & FLOATING TOGGLE
+       0. IMMEDIATE AUTOMATIC AUDIO PLAYBACK
        ========================================== */
     const audio = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
 
-    function playAudio() {
-        if (!audio) return;
+    function startAudio() {
+        if (!audio || isPlaying) return;
         audio.play().then(() => {
             isPlaying = true;
             if (musicBtn) musicBtn.classList.add('playing');
+            removeInteractionListeners();
         }).catch(err => {
-            console.log("Autoplay waiting for user interaction:", err);
+            console.log("Waiting for user interaction to unblock audio autoplay:", err);
         });
     }
 
@@ -31,28 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if (musicBtn) musicBtn.classList.remove('playing');
     }
 
-    // Play on first user interaction anywhere on screen
-    const handleFirstInteraction = () => {
-        if (!isPlaying) {
-            playAudio();
-        }
-        ['click', 'touchstart', 'scroll'].forEach(evt => {
-            document.removeEventListener(evt, handleFirstInteraction);
-        });
-    };
+    // Try starting audio immediately on load
+    startAudio();
 
-    ['click', 'touchstart', 'scroll'].forEach(evt => {
-        document.addEventListener(evt, handleFirstInteraction, { once: true });
+    // Trigger playback on ANY touch, tap, click, or scroll action on the website
+    const events = ['click', 'touchstart', 'touchend', 'scroll', 'keydown', 'mousemove'];
+    
+    function onFirstInteraction() {
+        startAudio();
+    }
+
+    events.forEach(evt => {
+        window.addEventListener(evt, onFirstInteraction, { passive: true });
     });
 
-    // Toggle button handler
+    function removeInteractionListeners() {
+        events.forEach(evt => {
+            window.removeEventListener(evt, onFirstInteraction);
+        });
+    }
+
+    // Manual Toggle Button Handler
     if (musicBtn) {
         musicBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (isPlaying) {
                 pauseAudio();
             } else {
-                playAudio();
+                startAudio();
             }
         });
     }
