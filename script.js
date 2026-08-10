@@ -3,18 +3,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("entranceOverlay");
     const bgMusic = document.getElementById("bgMusic");
 
-    // Tap to Open Event Handler
+    // Tap Envelope -> Unmute & Play Music -> Fade Out Envelope
     enterBtn.addEventListener("click", () => {
         if (bgMusic) {
             bgMusic.muted = false;
-            bgMusic.play().catch(err => {
-                console.log("Audio play blocked by browser policy:", err);
+            bgMusic.play().then(() => {
+                console.log("Background music started playing.");
+            }).catch(err => {
+                console.log("Audio autoplay restriction handled:", err);
             });
         }
+        
         overlay.classList.add("hidden");
     });
 
-    // Countdown Timer Logic
+    // Countdown Timer Functionality
     const targetDate = new Date("August 20, 2026 18:00:00").getTime();
 
     function updateCountdown() {
