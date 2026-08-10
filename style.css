@@ -52,6 +52,45 @@ body {
 }
 
 /* ==========================================
+   FLOATING AUDIO TOGGLE BUTTON
+   ========================================== */
+.music-toggle-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: var(--gold-border);
+    color: var(--gold-primary);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: var(--gold-glow);
+    transition: all 0.3s ease;
+}
+
+.music-toggle-btn:hover {
+    transform: scale(1.1);
+    background: var(--gold-primary);
+    color: #000;
+}
+
+.music-toggle-btn.playing {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* ==========================================
    PRELOADER
    ========================================== */
 #loader {
@@ -199,12 +238,13 @@ body {
 
 .groom-bride {
     font-family: var(--font-heading);
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--gold-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1.4;
+    line-height: 1.5;
+    letter-spacing: 2px;
     margin-bottom: 1.5rem;
 }
 
@@ -554,27 +594,47 @@ body {
 
 .closing-quote {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: var(--gold-light);
-    line-height: 1.5;
+    line-height: 1.6;
     margin-bottom: 1.5rem;
     font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.closing-prefix {
+    font-family: var(--font-script);
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 0.3rem;
 }
 
 .closing-names {
-    font-family: var(--font-script);
-    font-size: 2.2rem;
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 2px;
     background: var(--gold-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.heart-inline {
+    -webkit-text-fill-color: initial;
+    font-size: 1.2rem;
 }
 
 .closing-hashtag {
     font-family: var(--font-heading);
     color: var(--gold-primary);
-    letter-spacing: 2px;
-    font-size: 1.1rem;
+    letter-spacing: 3px;
+    font-size: 1rem;
 }
 
 /* ==========================================
@@ -604,7 +664,7 @@ footer {
    ========================================== */
 @media (max-width: 768px) {
     .groom-bride {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .monogram {
@@ -629,11 +689,11 @@ footer {
     }
 
     .closing-quote {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .closing-names {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
     }
 }
 
