@@ -1,711 +1,85 @@
-/* ==========================================
-   RESET & BASE STYLES
-   ========================================== */
-*, *::before, *::after {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --bg-dark: #0a0a0a;
-    --bg-card: #141414;
-    --gold-primary: #d4af37;
-    --gold-light: #f3e5ab;
-    --gold-dark: #aa7c11;
-    --text-light: #f5f5f5;
-    --text-muted: #b3b3b3;
-    --font-heading: 'Cinzel', serif;
-    --font-script: 'Great Vibes', cursive;
-    --font-body: 'Montserrat', sans-serif;
-    --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa7c11 100%);
-    --gold-border: 1px solid rgba(212, 175, 55, 0.4);
-    --gold-glow: 0 0 20px rgba(212, 175, 55, 0.25);
-}
-
-html {
-    scroll-behavior: smooth;
-    font-size: 16px;
-}
-
 body {
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    font-family: var(--font-body);
-    overflow-x: hidden;
-    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fdfbf7;
+    color: #333;
+    text-align: center;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #050505;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--gold-dark);
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--gold-primary);
-}
-
-/* ==========================================
-   PRELOADER
-   ========================================== */
-#loader {
+/* Overlay Screen */
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #050505;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
+    transition: opacity 0.5s ease;
 }
 
-#loader.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loader-content {
-    text-align: center;
-}
-
-.rings {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
-}
-
-.ring {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: var(--gold-primary);
-    animation: spin 1.5s linear infinite;
-}
-
-.ring:nth-child(2) {
-    width: 60px;
-    height: 60px;
-    top: 10px;
-    left: 10px;
-    border-top-color: var(--gold-light);
-    animation: spin-reverse 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes spin-reverse {
-    0% { transform: rotate(360deg); }
-    100% { transform: rotate(0deg); }
-}
-
-.loader-hashtag {
-    font-family: var(--font-heading);
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 2rem;
-    letter-spacing: 2px;
-}
-
-.loader-text {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    margin-top: 5px;
-}
-
-/* ==========================================
-   FLOATING MUSIC CONTROL BUTTON
-   ========================================== */
-.audio-control-wrapper {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    z-index: 999;
-}
-
-.music-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--bg-card);
-    border: var(--gold-border);
-    color: var(--gold-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--gold-glow);
-    transition: all 0.3s ease;
-    outline: none;
-}
-
-.music-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
-}
-
-.music-btn.playing .music-icon {
-    animation: spin-music 3s linear infinite;
-    color: var(--gold-light);
-}
-
-@keyframes spin-music {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* ==========================================
-   PARTICLE CANVAS BACKGROUND
-   ========================================== */
-#particleCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* ==========================================
-   HERO SECTION
-   ========================================== */
-.hero-section {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem 1rem;
-    z-index: 1;
-    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, rgba(10, 10, 10, 0.95) 70%);
-}
-
-.hero-content {
-    max-width: 800px;
-    padding: 3rem 2rem;
-    border: var(--gold-border);
+.overlay-card {
+    background: #ffffff;
+    padding: 30px 20px;
     border-radius: 12px;
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(8px);
-    box-shadow: var(--gold-glow);
-    position: relative;
-}
-
-.hashtag {
-    display: inline-block;
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    color: var(--gold-primary);
-    letter-spacing: 3px;
-    margin-bottom: 1rem;
-    padding: 4px 16px;
-    border: 1px solid var(--gold-primary);
-    border-radius: 20px;
-}
-
-.monogram {
-    font-family: var(--font-script);
-    font-size: 3.5rem;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
-}
-
-.tagline {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-}
-
-.groom-bride {
-    font-family: var(--font-heading);
-    font-size: 2.8rem;
-    font-weight: 700;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-}
-
-.ampersand {
-    font-family: var(--font-script);
-    font-weight: 400;
-    color: var(--gold-light);
-    display: inline-block;
-    margin: 0 10px;
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin: 1.5rem 0;
-}
-
-.divider .line {
-    width: 60px;
-    height: 1px;
-    background: var(--gold-primary);
-}
-
-.gold-icon {
-    color: var(--gold-primary);
-}
-
-.event-date-highlight {
-    font-size: 1.2rem;
-    color: var(--gold-light);
-    letter-spacing: 1px;
-    margin-bottom: 2rem;
-}
-
-.btn-gold {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 28px;
-    background: var(--gold-gradient);
-    color: #000;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 30px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-    border: none;
-    cursor: pointer;
-}
-
-.btn-gold:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 22px rgba(212, 175, 55, 0.5);
-    color: #000;
-}
-
-/* ==========================================
-   MAIN CONTENT & SECTIONS
-   ========================================== */
-.main-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
-    position: relative;
-    z-index: 1;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 2.5rem;
-}
-
-.section-title .sub-title {
-    font-family: var(--font-script);
-    font-size: 1.8rem;
-    color: var(--gold-light);
-    display: block;
-}
-
-.section-title h2 {
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-top: -5px;
-}
-
-.gold-underline {
-    width: 70px;
-    height: 2px;
-    background: var(--gold-gradient);
-    margin: 10px auto 0;
-    border-radius: 2px;
-}
-
-/* ==========================================
-   SCRATCH CARD SECTION
-   ========================================== */
-.scratch-section {
-    text-align: center;
-    margin-bottom: 5rem;
-}
-
-.scratch-instruction {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-}
-
-.scratch-card-wrapper {
-    position: relative;
-    width: 340px;
-    height: 220px;
-    margin: 0 auto;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--gold-glow);
-    border: var(--gold-border);
-}
-
-.scratch-reveal-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-card);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    text-align: center;
-}
-
-.crown-icon {
-    font-size: 1.8rem;
-    color: var(--gold-primary);
-    margin-bottom: 8px;
-}
-
-.scratch-reveal-content h3 {
-    font-family: var(--font-heading);
-    color: var(--gold-light);
-    font-size: 1.3rem;
-    margin-bottom: 8px;
-}
-
-.scratch-reveal-content p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.4;
-    margin-bottom: 12px;
-}
-
-.time-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(212, 175, 55, 0.15);
-    border: 1px solid var(--gold-primary);
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    color: var(--gold-light);
-    font-weight: 500;
-}
-
-#scratchCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    touch-action: none;
-}
-
-/* ==========================================
-   COUNTDOWN SECTION
-   ========================================== */
-.countdown-section {
-    margin-bottom: 5rem;
-    text-align: center;
-}
-
-.timer-container {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.time-box {
-    background: var(--bg-card);
-    border: var(--gold-border);
-    padding: 1.5rem 1rem;
-    border-radius: 10px;
-    min-width: 100px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
-}
-
-.time-box:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--gold-glow);
-}
-
-.time-num {
-    display: block;
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1;
-}
-
-.time-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: 8px;
-    display: block;
-}
-
-/* ==========================================
-   VENUE SECTION
-   ========================================== */
-.venue-section {
-    margin-bottom: 5rem;
-}
-
-.venue-card {
-    background: var(--bg-card);
-    border: var(--gold-border);
-    border-radius: 16px;
-    padding: 2.5rem;
-    box-shadow: var(--gold-glow);
-    text-align: center;
-    position: relative;
-}
-
-.venue-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid var(--gold-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    font-size: 1.5rem;
-    color: var(--gold-primary);
-}
-
-.venue-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
-    color: var(--gold-light);
-    margin-bottom: 0.5rem;
-}
-
-.venue-address {
-    color: var(--text-muted);
-    font-size: 1rem;
-    margin-bottom: 2rem;
-}
-
-.venue-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
-    text-align: left;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid rgba(212, 175, 55, 0.15);
-}
-
-.info-item i {
-    font-size: 1.4rem;
-    color: var(--gold-primary);
-}
-
-.info-item h4 {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.info-item p {
-    font-size: 0.95rem;
-    color: var(--text-light);
-    font-weight: 500;
-}
-
-.map-btn {
-    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     max-width: 320px;
-    justify-content: center;
+    width: 85%;
 }
 
-/* ==========================================
-   CLOSING SECTION
-   ========================================== */
-.closing-section {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.closing-card {
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(20, 20, 20, 0.8) 100%);
-    border: var(--gold-border);
-    border-radius: 16px;
-    padding: 3rem 2rem;
-    box-shadow: var(--gold-glow);
-}
-
-.heart-icon {
-    font-size: 2.2rem;
-    color: var(--gold-primary);
-    margin-bottom: 1.5rem;
-}
-
-.closing-quote {
-    font-family: var(--font-heading);
+.overlay-card h1 {
     font-size: 1.5rem;
-    color: var(--gold-light);
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-    font-weight: 400;
+    margin-bottom: 10px;
+    color: #8b0000;
 }
 
-.closing-names {
-    font-family: var(--font-script);
-    font-size: 2.2rem;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.8rem;
+.overlay-card p {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
 }
 
-.closing-hashtag {
-    font-family: var(--font-heading);
-    color: var(--gold-primary);
-    letter-spacing: 2px;
-    font-size: 1.1rem;
+/* Open Button */
+#openBtn {
+    background-color: #8b0000;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s, background-color 0.2s;
 }
 
-/* ==========================================
-   FOOTER & ANIMATIONS
-   ========================================== */
-footer {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    border-top: 1px solid rgba(212, 175, 55, 0.1);
+#openBtn:active {
+    transform: scale(0.95);
+    background-color: #6b0000;
 }
 
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+/* Main Content */
+.container {
+    padding: 40px 20px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.scroll-reveal.active {
-    opacity: 1;
-    transform: translateY(0);
+.header h2 {
+    color: #8b0000;
+    font-size: 2rem;
+    margin-bottom: 10px;
 }
 
-/* ==========================================
-   RESPONSIVE STYLES
-   ========================================== */
-@media (max-width: 768px) {
-    .groom-bride {
-        font-size: 2rem;
-    }
-    
-    .monogram {
-        font-size: 2.8rem;
-    }
-
-    .hero-content {
-        padding: 2rem 1.2rem;
-    }
-
-    .timer-container {
-        gap: 0.8rem;
-    }
-
-    .time-box {
-        min-width: 75px;
-        padding: 1rem 0.5rem;
-    }
-
-    .time-num {
-        font-size: 1.8rem;
-    }
-
-    .closing-quote {
-        font-size: 1.2rem;
-    }
-
-    .closing-names {
-        font-size: 1.8rem;
-    }
-
-    .audio-control-wrapper {
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .music-btn {
-        width: 45px;
-        height: 45px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hashtag {
-        font-size: 1rem;
-    }
-    
-    .event-date-highlight {
-        font-size: 1rem;
-    }
-
-    .scratch-card-wrapper {
-        width: 290px;
-        height: 200px;
-    }
-
-    #scratchCanvas {
-        width: 290px;
-        height: 200px;
-    }
-
-    .venue-card {
-        padding: 1.5rem 1rem;
-    }
+.subtitle {
+    color: #555;
+    font-style: italic;
+    margin-bottom: 25px;
 }
