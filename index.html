@@ -3,78 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.S. Sheshathri & S. Janani - Wedding Invitation</title>
+    <title>Wedding Reception | M.S. Sheshathri & S. Janani</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Background Music -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="dheema.mp3" type="audio/mpeg">
-        Your browser does not support audio.
-    </audio>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="rings">
+                <div class="ring"></div>
+                <div class="ring"></div>
+            </div>
+            <h2 class="loader-hashtag">#ShaMa</h2>
+            <p class="loader-text">Loading Gold Memories...</p>
+        </div>
+    </div>
 
-    <div class="main-wrapper">
-        <header class="top-header">
+    <!-- Background Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Hero Section -->
+    <header class="hero-section" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content fade-in">
             <span class="hashtag">#ShaMa</span>
             <div class="monogram">S & J</div>
-            <p class="invite-line">Together with their families, invite you to celebrate the Wedding Reception of</p>
-            <h1 class="couple-names">M.S. Sheshathri & S. Janani</h1>
-            <p class="event-date-top">Saturday, 12th September 2026</p>
-        </header>
+            <p class="tagline">Together with their families, invite you to celebrate the Wedding Reception of</p>
+            <h1 class="groom-bride">
+                M.S. SHESHATHRI<br>
+                <span class="ampersand">&</span><br>
+                S. JANANI
+            </h1>
+            <div class="divider">
+                <span class="line"></span>
+                <i class="fa-solid fa-gem gold-icon"></i>
+                <span class="line"></span>
+            </div>
+            <p class="event-date-highlight"><i class="fa-regular fa-calendar-check"></i> 12th September 2026</p>
+            <a href="#scratch-section" class="btn-gold scroll-btn">Reveal Special Invitation <i class="fa-solid fa-chevron-down"></i></a>
+        </div>
+    </header>
+
+    <main class="main-container">
 
         <!-- Scratch Card Section -->
-        <section class="scratch-section">
-            <h2>Reveal Special Invitation</h2>
-            <p class="sub-title">An Exclusive Reveal</p>
-            <div class="scratch-card-container">
-                <canvas id="scratchCanvas"></canvas>
-                <div class="scratch-content">
+        <section id="scratch-section" class="scratch-section scroll-reveal">
+            <div class="section-title">
+                <span class="sub-title">An Exclusive Reveal</span>
+                <h2>Scratch Your Invitation</h2>
+                <div class="gold-underline"></div>
+            </div>
+            <p class="scratch-instruction">Scratch the gold card below using your mouse or finger to unveil the message!</p>
+            
+            <div class="scratch-card-wrapper">
+                <!-- Revealed Invitation Beneath -->
+                <div class="scratch-reveal-content">
+                    <i class="fa-solid fa-crown crown-icon"></i>
                     <h3>Cordially Invited</h3>
                     <p>We request the pleasure of your company at our Wedding Reception as we embark on this beautiful journey of togetherness.</p>
-                    <p class="time-text">7:00 PM Onwards</p>
+                    <div class="time-badge">
+                        <i class="fa-regular fa-clock"></i> 7:00 PM Onwards
+                    </div>
                 </div>
+                <!-- Scratch Canvas Layer -->
+                <canvas id="scratchCanvas" width="340" height="220"></canvas>
             </div>
-            <p class="scratch-instruction">Scratch the gold card above using your mouse or finger to unveil the message!</p>
         </section>
 
         <!-- Countdown Section -->
-        <section class="countdown-section">
-            <h2>The Grand Event Begins In</h2>
-            <p class="sub-title">Countdown To Celebration</p>
-            <div class="timer">
-                <div class="time-box"><span id="days">00</span><p>Days</p></div>
-                <div class="time-box"><span id="hours">00</span><p>Hours</p></div>
-                <div class="time-box"><span id="minutes">00</span><p>Minutes</p></div>
-                <div class="time-box"><span id="seconds">00</span><p>Seconds</p></div>
+        <section class="countdown-section scroll-reveal">
+            <div class="section-title">
+                <span class="sub-title">The Grand Event Begins In</span>
+                <h2>Countdown To Celebration</h2>
+                <div class="gold-underline"></div>
             </div>
-        </section>
 
-        <!-- Event Details -->
-        <section class="details-section">
-            <h2>Where & When</h2>
-            <p class="sub-title">Reception Details</p>
-
-            <div class="details-card">
-                <h3>Sumangali Thirumana Mahal</h3>
-                <p>Salem, Tamil Nadu, India</p>
-
-                <div class="meta-info">
-                    <p><strong>Date:</strong> 12 September 2026</p>
-                    <p><strong>Timing:</strong> 7:00 PM Onwards</p>
+            <div class="timer-container" id="timer">
+                <div class="time-box">
+                    <span id="days" class="time-num">00</span>
+                    <span class="time-label">Days</span>
                 </div>
-
-                <a href="https://maps.google.com" target="_blank" class="maps-btn">Open Location in Google Maps</a>
+                <div class="time-box">
+                    <span id="hours" class="time-num">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-box">
+                    <span id="minutes" class="time-num">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-box">
+                    <span id="seconds" class="time-num">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
             </div>
         </section>
 
-        <footer class="footer">
-            <p class="quote">"Your Presence Will Make Our Celebration Truly Special"</p>
-            <p class="signoff">With Love, M.S. Sheshathri ❤️ S. Janani</p>
-            <span class="hashtag">#ShaMa</span>
-            <p class="copyright">&copy; 2026 M.S. Sheshathri & S. Janani. All Rights Reserved.</p>
-        </footer>
-    </div>
+        <!-- Reception & Venue Details -->
+        <section class="venue-section scroll-reveal">
+            <div class="section-title">
+                <span class="sub-title">Where & When</span>
+                <h2>Reception Details</h2>
+                <div class="gold-underline"></div>
+            </div>
+
+            <div class="venue-card">
+                <div class="card-inner">
+                    <div class="venue-icon">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3>Sumangali Thirumana Mahal</h3>
+                    <p class="venue-address">
+                        <i class="fa-solid fa-location-dot gold-icon"></i> Salem, Tamil Nadu, India
+                    </p>
+                    <div class="venue-info-grid">
+                        <div class="info-item">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <div>
+                                <h4>Date</h4>
+                                <p>12 September 2026</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <div>
+                                <h4>Timing</h4>
+                                <p>7:00 PM Onwards</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com/?q=Sumangali+Thirumana+Mahal+Salem" target="_blank" rel="noopener noreferrer" class="btn-gold map-btn">
+                        <i class="fa-solid fa-map-location-dot"></i> Open Location in Google Maps
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing Message -->
+        <section class="closing-section scroll-reveal">
+            <div class="closing-card">
+                <i class="fa-solid fa-heart heart-icon"></i>
+                <h2 class="closing-quote">"Your Presence Will Make Our Celebration Truly Special"</h2>
+                <p class="closing-names">With Love, M.S. SHESHATHRI ❤️ S. JANANI</p>
+                <div class="closing-hashtag">#ShaMa</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 M.S. SHESHATHRI & S. JANANI. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Audio Element for Autoplay Background Music -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="dheema.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="script.js"></script>
 </body>
