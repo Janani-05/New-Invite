@@ -1,231 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+    const enterBtn = document.getElementById("enterBtn");
+    const overlay = document.getElementById("entranceOverlay");
+    const bgMusic = document.getElementById("bgMusic");
 
-    /* ==========================================
-       1. ENVELOPE OPEN & AUDIO CONTROLS
-       ========================================== */
-    const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    const musicIcon = document.getElementById('musicIcon');
-    const entranceOverlay = document.getElementById('entranceOverlay');
-    const envelopeBtn = document.getElementById('envelopeBtn');
-    const enterBtn = document.getElementById('enterBtn');
-    let isPlaying = false;
-
-    function playAudio() {
-        if (!bgMusic) return;
-        bgMusic.play().then(() => {
-            isPlaying = true;
-            if (musicIcon) musicIcon.className = 'fa-solid fa-compact-disc fa-spin';
-            if (musicBtn) musicBtn.classList.add('playing');
-        }).catch(err => {
-            console.log("Audio playback error:", err);
-        });
-    }
-
-    function triggerOpenEnvelope() {
-        if (envelopeBtn) envelopeBtn.classList.add('open');
-        playAudio();
-
-        setTimeout(() => {
-            if (entranceOverlay) {
-                entranceOverlay.style.opacity = '0';
-                setTimeout(() => {
-                    entranceOverlay.style.display = 'none';
-                }, 600);
-            }
-        }, 750);
-    }
-
-    if (enterBtn) enterBtn.addEventListener('click', triggerOpenEnvelope);
-    if (envelopeBtn) envelopeBtn.addEventListener('click', triggerOpenEnvelope);
-
-    if (musicBtn) {
-        musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (!bgMusic) return;
-
-            if (isPlaying) {
-                bgMusic.pause();
-                if (musicIcon) musicIcon.className = 'fa-solid fa-volume-xmark';
-                if (musicBtn) musicBtn.classList.remove('playing');
-                isPlaying = false;
-            } else {
-                playAudio();
-            }
-        });
-    }
-
-    /* ==========================================
-       2. GOLD DUST CANVAS PARTICLES
-       ========================================== */
-    const canvas = document.getElementById('particleCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const particleCount = 50;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.4;
-                this.speedY = -Math.random() * 0.5 - 0.2;
-                this.opacity = Math.random() * 0.6 + 0.2;
-                this.color = `rgba(212, 175, 55, ${this.opacity})`;
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
-                    this.y = canvas.height + 10;
-                    this.x = Math.random() * canvas.width;
-                }
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+    // Tap to Open Event Handler
+    enterBtn.addEventListener("click", () => {
+        if (bgMusic) {
+            bgMusic.muted = false;
+            bgMusic.play().catch(err => {
+                console.log("Audio play blocked by browser policy:", err);
             });
-            requestAnimationFrame(animateParticles);
         }
-        animateParticles();
-    }
+        overlay.classList.add("hidden");
+    });
 
-    /* ==========================================
-       3. GOLD SCRATCH CARD EFFECT
-       ========================================== */
-    const scratchCanvas = document.getElementById('scratchCanvas');
-    if (scratchCanvas) {
-        const sCtx = scratchCanvas.getContext('2d');
-        let isScratching = false;
+    // Countdown Timer Logic
+    const targetDate = new Date("August 20, 2026 18:00:00").getTime();
 
-        function initScratchCard() {
-            const rect = scratchCanvas.parentElement.getBoundingClientRect();
-            scratchCanvas.width = rect.width;
-            scratchCanvas.height = rect.height;
-
-            const grad = sCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
-            grad.addColorStop(0, '#bf953f');
-            grad.addColorStop(0.25, '#fcf6ba');
-            grad.addColorStop(0.5, '#b38728');
-            grad.addColorStop(0.75, '#fbf5b7');
-            grad.addColorStop(1, '#aa7c11');
-
-            sCtx.fillStyle = grad;
-            sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-
-            sCtx.font = 'bold 16px Cinzel';
-            sCtx.fillStyle = '#111111';
-            sCtx.textAlign = 'center';
-            sCtx.fillText('✨ SCRATCH HERE ✨', scratchCanvas.width / 2, scratchCanvas.height / 2);
-        }
-
-        initScratchCard();
-
-        function getScratchPos(e) {
-            const rect = scratchCanvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
-        }
-
-        function scratch(e) {
-            if (!isScratching) return;
-            e.preventDefault();
-            const pos = getScratchPos(e);
-            sCtx.globalCompositeOperation = 'destination-out';
-            sCtx.beginPath();
-            sCtx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
-            sCtx.fill();
-        }
-
-        scratchCanvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
-        scratchCanvas.addEventListener('mousemove', scratch);
-        window.addEventListener('mouseup', () => { isScratching = false; });
-
-        scratchCanvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
-        scratchCanvas.addEventListener('touchmove', scratch);
-        window.addEventListener('touchend', () => { isScratching = false; });
-    }
-
-    /* ==========================================
-       4. COUNTDOWN TIMER
-       ========================================== */
-    const targetDate = new Date('2026-09-12T19:00:00+05:30').getTime();
-
-    function updateTimer() {
+    function updateCountdown() {
         const now = new Date().getTime();
-        const diff = targetDate - now;
+        const difference = targetDate - now;
 
-        const timerContainer = document.getElementById('timer');
-        if (!timerContainer) return;
+        if (difference > 0) {
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-        if (diff <= 0) {
-            timerContainer.innerHTML = '<h3 style="color:var(--gold-light);">The Reception Has Begun!</h3>';
-            return;
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
         }
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
     }
 
-    setInterval(updateTimer, 1000);
-    updateTimer();
-
-    /* ==========================================
-       5. SCROLL ANIMATIONS
-       ========================================== */
-    const reveals = document.querySelectorAll('.scroll-reveal');
-
-    function revealOnScroll() {
-        const windowHeight = window.innerHeight;
-        reveals.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            if (elementTop < windowHeight - 100) {
-                element.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll();
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 });
