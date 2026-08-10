@@ -1,112 +1,353 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.S. Sheshathri & S. Janani - Wedding Invitation</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Georgia', serif;
+}
 
-    <!-- Background Music -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="dheema.mp3" type="audio/mpeg">
-        Your browser does not support audio.
-    </audio>
+body {
+    background-color: #fdfbf7;
+    color: #333;
+    text-align: center;
+    padding: 20px 10px;
+    overflow-x: hidden;
+}
 
-    <!-- FIRST SCREEN: ENVELOPE OVERLAY -->
-    <div id="envelopeOverlay" class="envelope-overlay">
-        <div class="opening-intro">
-            <span class="sub-intro">You Are Cordially Invited</span>
-            <h2 class="couple-names-intro">M.S. Sheshathri <span class="heart">♥</span> S. Janani</h2>
-            <p class="invite-text">Wedding Reception</p>
-        </div>
+/* ENVELOPE OVERLAY */
+.envelope-overlay {
+    position: fixed;
+    inset: 0;
+    background: #1a0508;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
 
-        <div class="envelope-wrapper" id="envelope">
-            <div class="envelope-back"></div>
-            <div class="envelope-lining"></div>
-            <div class="invitation-card-inner">
-                <div class="card-inner-content">
-                    <span class="monogram-small">#ShaMa</span>
-                    <h3>Save The Date</h3>
-                    <p>12th September 2026</p>
-                </div>
-            </div>
-            <div class="envelope-pocket"></div>
-            <div class="envelope-flap"></div>
-            <div class="wax-seal" id="waxSeal">
-                <div class="seal-inner">
-                    <span class="seal-initials">S & J</span>
-                </div>
-            </div>
-        </div>
+.envelope-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
 
-        <button class="open-btn" id="openBtn">OPEN INVITATION</button>
-    </div>
+.opening-intro {
+    margin-bottom: 25px;
+}
 
-    <!-- MAIN CONTENT (Hidden until envelope opens) -->
-    <div class="main-wrapper hidden" id="mainWrapper">
-        <header class="top-header">
-            <span class="hashtag">#ShaMa</span>
-            <div class="monogram">S & J</div>
-            <p class="invite-line">Together with their families, invite you to celebrate the Wedding Reception of</p>
-            <h1 class="couple-names">M.S. Sheshathri & S. Janani</h1>
-            <p class="event-date-top">Saturday, 12th September 2026</p>
-        </header>
+.sub-intro {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e8b4a2;
+}
 
-        <!-- Scratch Card Section -->
-        <section class="scratch-section">
-            <h2>Reveal Special Invitation</h2>
-            <p class="sub-title">An Exclusive Reveal</p>
-            <div class="scratch-card-container">
-                <canvas id="scratchCanvas"></canvas>
-                <div class="scratch-content">
-                    <h3>Cordially Invited</h3>
-                    <p>We request the pleasure of your company at our Wedding Reception as we embark on this beautiful journey of togetherness.</p>
-                    <p class="time-text">7:00 PM Onwards</p>
-                </div>
-            </div>
-            <p class="scratch-instruction">Scratch the gold card above using your mouse or finger to unveil the message!</p>
-        </section>
+.couple-names-intro {
+    color: #fff7ed;
+    font-size: 1.6rem;
+    margin: 8px 0;
+}
 
-        <!-- Countdown Section -->
-        <section class="countdown-section">
-            <h2>The Grand Event Begins In</h2>
-            <p class="sub-title">Countdown To Celebration</p>
-            <div class="timer">
-                <div class="time-box"><span id="days">00</span><p>Days</p></div>
-                <div class="time-box"><span id="hours">00</span><p>Hours</p></div>
-                <div class="time-box"><span id="minutes">00</span><p>Minutes</p></div>
-                <div class="time-box"><span id="seconds">00</span><p>Seconds</p></div>
-            </div>
-        </section>
+.couple-names-intro .heart {
+    color: #8b0000;
+}
 
-        <!-- Event Details -->
-        <section class="details-section">
-            <h2>Where & When</h2>
-            <p class="sub-title">Reception Details</p>
+.invite-text {
+    color: #e8b4a2;
+    font-style: italic;
+}
 
-            <div class="details-card">
-                <h3>Sumangali Thirumana Mahal</h3>
-                <p>Salem, Tamil Nadu, India</p>
+/* ENVELOPE STRUCTURE */
+.envelope-wrapper {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background-color: #4b1522;
+    border-radius: 6px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    perspective: 1000px;
+    margin-bottom: 30px;
+}
 
-                <div class="meta-info">
-                    <p><strong>Date:</strong> 12 September 2026</p>
-                    <p><strong>Timing:</strong> 7:00 PM Onwards</p>
-                </div>
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #4b1522;
+    border-radius: 6px;
+}
 
-                <a href="https://maps.google.com" target="_blank" class="maps-btn">Open Location in Google Maps</a>
-            </div>
-        </section>
+.envelope-lining {
+    position: absolute;
+    inset: 6px;
+    background: #2e0a12;
+    border-radius: 4px;
+}
 
-        <footer class="footer">
-            <p class="quote">"Your Presence Will Make Our Celebration Truly Special"</p>
-            <p class="signoff">With Love, M.S. Sheshathri ❤️ S. Janani</p>
-            <span class="hashtag">#ShaMa</span>
-            <p class="copyright">&copy; 2026 M.S. Sheshathri & S. Janani. All Rights Reserved.</p>
-        </footer>
-    </div>
+.envelope-pocket {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #6b1e2e 0%, #4b1522 100%);
+    clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+    border-radius: 0 0 6px 6px;
+    z-index: 3;
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+.invitation-card-inner {
+    position: absolute;
+    width: 270px;
+    height: 170px;
+    top: 15px;
+    left: 15px;
+    background: #fff7ed;
+    border: 1px solid #6b1e2e;
+    border-radius: 4px;
+    z-index: 2;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-inner-content .monogram-small {
+    color: #8b0000;
+    font-weight: bold;
+}
+
+.card-inner-content h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+.card-inner-content p {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #6b1e2e 0%, #4b1522 100%);
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
+    transform-origin: top center;
+    transition: transform 0.6s ease;
+    z-index: 4;
+}
+
+.wax-seal {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    background: radial-gradient(circle, #802336 0%, #420F1B 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1.5px solid #e8b4a2;
+    z-index: 5;
+}
+
+.seal-initials {
+    font-size: 0.75rem;
+    color: #fff7ed;
+    font-weight: bold;
+}
+
+.envelope-wrapper.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope-wrapper.open .invitation-card-inner {
+    transform: translateY(-110px);
+    z-index: 5;
+}
+
+.open-btn {
+    background: #6b1e2e;
+    color: #fff7ed;
+    border: 1px solid #e8b4a2;
+    padding: 12px 30px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+}
+
+.open-btn:hover {
+    transform: scale(1.03);
+}
+
+/* MAIN WRAPPER SHOW/HIDE */
+.main-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.main-wrapper.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.hashtag {
+    font-size: 1.2rem;
+    color: #8b0000;
+    font-weight: bold;
+}
+
+.monogram {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #d4af37;
+    margin: 10px 0;
+}
+
+.couple-names {
+    color: #8b0000;
+    font-size: 1.8rem;
+    margin: 10px 0;
+}
+
+.event-date-top {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Sections */
+section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    color: #8b0000;
+    font-size: 1.5rem;
+}
+
+.sub-title {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Scratch Card */
+.scratch-card-container {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.scratch-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.scratch-content h3 {
+    color: #8b0000;
+    margin-bottom: 10px;
+}
+
+canvas#scratchCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.scratch-instruction {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Timer */
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.time-box {
+    background: #ffffff;
+    border: 1px solid #d4af37;
+    padding: 10px 15px;
+    border-radius: 8px;
+    min-width: 65px;
+}
+
+.time-box span {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #8b0000;
+}
+
+.time-box p {
+    font-size: 0.75rem;
+    color: #555;
+}
+
+/* Details */
+.details-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.maps-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #8b0000;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.footer {
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.copyright {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 15px;
+}
