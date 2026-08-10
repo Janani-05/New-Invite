@@ -3,36 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation</title>
+    <title>M.S. Sheshathri & S. Janani - Wedding Invitation</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Entrance Overlay to bypass browser audio blocking -->
-    <div id="overlay" class="overlay">
-        <div class="overlay-card">
-            <h1> Wedding Invitation </h1>
-            <p>Click below to open</p>
-            <button id="openBtn">Open Invitation</button>
-        </div>
-    </div>
-
     <!-- Background Music -->
     <audio id="bgMusic" loop preload="auto">
         <source src="dheema.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
+        Your browser does not support audio.
     </audio>
 
-    <!-- Main Content -->
-    <div class="container">
-        <header class="header">
-            <h2>You're Invited!</h2>
-            <p class="subtitle">Join us in celebrating our special day</p>
+    <div class="main-wrapper">
+        <header class="top-header">
+            <span class="hashtag">#ShaMa</span>
+            <div class="monogram">S & J</div>
+            <p class="invite-line">Together with their families, invite you to celebrate the Wedding Reception of</p>
+            <h1 class="couple-names">M.S. Sheshathri & S. Janani</h1>
+            <p class="event-date-top">Saturday, 12th September 2026</p>
         </header>
 
-        <main class="content">
-            <p>We invite you to share in our joy as we celebrate our wedding reception.</p>
-        </main>
+        <!-- Scratch Card Section -->
+        <section class="scratch-section">
+            <h2>Reveal Special Invitation</h2>
+            <p class="sub-title">An Exclusive Reveal</p>
+            <div class="scratch-card-container">
+                <canvas id="scratchCanvas"></canvas>
+                <div class="scratch-content">
+                    <h3>Cordially Invited</h3>
+                    <p>We request the pleasure of your company at our Wedding Reception as we embark on this beautiful journey of togetherness.</p>
+                    <p class="time-text">7:00 PM Onwards</p>
+                </div>
+            </div>
+            <p class="scratch-instruction">Scratch the gold card above using your mouse or finger to unveil the message!</p>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section">
+            <h2>The Grand Event Begins In</h2>
+            <p class="sub-title">Countdown To Celebration</p>
+            <div class="timer">
+                <div class="time-box"><span id="days">00</span><p>Days</p></div>
+                <div class="time-box"><span id="hours">00</span><p>Hours</p></div>
+                <div class="time-box"><span id="minutes">00</span><p>Minutes</p></div>
+                <div class="time-box"><span id="seconds">00</span><p>Seconds</p></div>
+            </div>
+        </section>
+
+        <!-- Event Details -->
+        <section class="details-section">
+            <h2>Where & When</h2>
+            <p class="sub-title">Reception Details</p>
+
+            <div class="details-card">
+                <h3>Sumangali Thirumana Mahal</h3>
+                <p>Salem, Tamil Nadu, India</p>
+
+                <div class="meta-info">
+                    <p><strong>Date:</strong> 12 September 2026</p>
+                    <p><strong>Timing:</strong> 7:00 PM Onwards</p>
+                </div>
+
+                <a href="https://maps.google.com" target="_blank" class="maps-btn">Open Location in Google Maps</a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="quote">"Your Presence Will Make Our Celebration Truly Special"</p>
+            <p class="signoff">With Love, M.S. Sheshathri ❤️ S. Janani</p>
+            <span class="hashtag">#ShaMa</span>
+            <p class="copyright">&copy; 2026 M.S. Sheshathri & S. Janani. All Rights Reserved.</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
