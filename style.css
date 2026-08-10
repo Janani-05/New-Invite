@@ -32,62 +32,174 @@ body {
     line-height: 1.6;
 }
 
-/* Entrance Modal */
+/* ==========================================
+   ENVELOPE ENTRANCE OVERLAY
+   ========================================== */
 .entrance-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(5, 5, 5, 0.95);
-    backdrop-filter: blur(10px);
+    background: radial-gradient(circle, #1a150a 0%, #050505 100%);
     z-index: 10000;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 1.5rem;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.entrance-card {
-    background: var(--bg-card);
-    border: var(--gold-border);
-    padding: 2.5rem 2rem;
-    border-radius: 16px;
+.envelope-wrapper {
     text-align: center;
     max-width: 380px;
-    box-shadow: var(--gold-glow);
+    width: 100%;
 }
 
-.overlay-monogram {
-    font-family: var(--font-script);
-    font-size: 3rem;
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 0.5rem 0;
+.hashtag-pill {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    padding: 6px 18px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--gold-primary);
+    border-radius: 30px;
+    margin-bottom: 1.5rem;
 }
 
-.entrance-card h2 {
+/* Envelope Container */
+.envelope-container {
+    position: relative;
+    width: 300px;
+    height: 190px;
+    background: #18150f;
+    border: 2px solid var(--gold-primary);
+    border-radius: 12px;
+    margin: 1rem auto 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.envelope-container:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 45px rgba(212, 175, 55, 0.5);
+}
+
+/* Floating Monogram Heart */
+.monogram-heart {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-heading);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.9);
+    z-index: 10;
+    animation: floatHeart 2.5s infinite ease-in-out;
+}
+
+/* Flying Butterflies */
+.butterfly {
+    position: absolute;
+    font-size: 1.6rem;
+    z-index: 12;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+}
+
+.b1 {
+    top: 15px;
+    left: 20px;
+    animation: flyLeft 3s infinite ease-in-out;
+}
+
+.b2 {
+    top: 20px;
+    right: 20px;
+    animation: flyRight 3.5s infinite ease-in-out;
+}
+
+/* Envelope Card Text */
+.envelope-body {
+    padding: 1rem;
+    text-align: center;
+}
+
+.letter-preview h3 {
     font-family: var(--font-heading);
     color: var(--gold-light);
-    font-size: 1.4rem;
-    margin: 0.8rem 0;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
 }
 
-.entrance-card p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 1.8rem;
+.and-sym {
+    font-family: var(--font-script);
+    color: var(--gold-primary);
+    font-size: 1.5rem;
+    display: block;
+    margin: 2px 0;
 }
 
 .start-btn {
     width: 100%;
     justify-content: center;
+    padding: 16px 24px;
     font-size: 0.9rem;
+    letter-spacing: 1px;
 }
 
-/* Music Control Button */
+/* Opening Animations */
+.envelope-container.open .monogram-heart {
+    animation: burstUp 0.8s forwards;
+}
+
+.envelope-container.open .butterfly.b1 {
+    animation: butterflyFlyAwayLeft 0.8s forwards;
+}
+
+.envelope-container.open .butterfly.b2 {
+    animation: butterflyFlyAwayRight 0.8s forwards;
+}
+
+/* Keyframe Animations */
+@keyframes floatHeart {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -58%) scale(1.1); }
+}
+
+@keyframes flyLeft {
+    0%, 100% { transform: translate(0, 0) rotate(-10deg); }
+    50% { transform: translate(-12px, -18px) rotate(10deg); }
+}
+
+@keyframes flyRight {
+    0%, 100% { transform: translate(0, 0) rotate(10deg); }
+    50% { transform: translate(12px, -18px) rotate(-10deg); }
+}
+
+@keyframes burstUp {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -250%) scale(2.2); }
+}
+
+@keyframes butterflyFlyAwayLeft {
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(-120px, -200px) scale(1.8) rotate(-40deg); }
+}
+
+@keyframes butterflyFlyAwayRight {
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(120px, -200px) scale(1.8) rotate(40deg); }
+}
+
+/* Floating Music Control Button */
 .music-btn {
     position: fixed;
     bottom: 25px;
