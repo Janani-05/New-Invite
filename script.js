@@ -1,44 +1,159 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const audio = document.getElementById("bgMusic");
-    const openBtn = document.getElementById("openBtn");
-    const overlay = document.getElementById("overlay");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicText = document.getElementById("musicText");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Reception | M.S. Sheshathri & S. Janani</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    let isPlaying = false;
+    <!-- Entrance Overlay with S & J Monogram -->
+    <div id="entranceOverlay" class="entrance-overlay">
+        <div class="entrance-card">
+            <span class="hashtag">#ShaMa</span>
+            <div class="overlay-monogram">S &amp; J</div>
+            <h2>M.S. Sheshathri <br>&amp;<br> S. Janani</h2>
+            <p>We invite you to celebrate our Wedding Reception</p>
+            <button id="enterBtn" class="btn-gold start-btn">
+                S &amp; J | Tap to Open 🎵
+            </button>
+        </div>
+    </div>
 
-    // Direct user tap unlocks audio context on Mobile Safari & Chrome
-    openBtn.addEventListener("click", function () {
-        audio.play().then(() => {
-            isPlaying = true;
-            if (musicText) musicText.innerText = "Pause Music";
-            musicBtn.style.backgroundColor = "#ff4757";
-        }).catch((err) => {
-            console.error("Audio playback error:", err);
-        });
+    <!-- Background Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
 
-        // Hide overlay smoothly
-        overlay.style.opacity = "0";
-        setTimeout(() => {
-            overlay.style.display = "none";
-        }, 500);
-    });
+    <!-- Floating Music Button -->
+    <button id="musicBtn" class="music-btn" aria-label="Toggle Music">
+        <i id="musicIcon" class="fa-solid fa-music"></i>
+    </button>
 
-    // Manual Toggle Button
-    musicBtn.addEventListener("click", function () {
-        if (isPlaying) {
-            audio.pause();
-            isPlaying = false;
-            musicText.innerText = "Play Music";
-            musicBtn.style.backgroundColor = "#2ed573";
-        } else {
-            audio.play().then(() => {
-                isPlaying = true;
-                musicText.innerText = "Pause Music";
-                musicBtn.style.backgroundColor = "#ff4757";
-            }).catch((err) => {
-                console.error("Playback failed:", err);
-            });
-        }
-    });
-});
+    <!-- Background Audio (Dheema Song) -->
+    <audio id="bgMusic" loop preload="auto" playsinline>
+        <source src="dheema.mp3" type="audio/mpeg">
+        <source src="./dheema.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content fade-in">
+            <span class="hashtag">#ShaMa</span>
+            <div class="monogram">S & J</div>
+            <p class="tagline">Together with their families, invite you to celebrate the Wedding Reception of</p>
+            <h1 class="groom-bride">M.S. Sheshathri <span class="ampersand">&amp;</span> S. Janani</h1>
+            <div class="divider">
+                <span class="line"></span>
+                <i class="fa-solid fa-gem gold-icon"></i>
+                <span class="line"></span>
+            </div>
+            <p class="event-date-highlight"><i class="fa-regular fa-calendar-check"></i> Saturday, 12th September 2026</p>
+            <a href="#scratch-section" class="btn-gold scroll-btn">Reveal Special Invitation <i class="fa-solid fa-chevron-down"></i></a>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- Scratch Card Section -->
+        <section id="scratch-section" class="scratch-section scroll-reveal">
+            <div class="section-title">
+                <span class="sub-title">An Exclusive Reveal</span>
+                <h2>Scratch Your Invitation</h2>
+                <div class="gold-underline"></div>
+            </div>
+            <p class="scratch-instruction">Scratch the gold card below using your mouse or finger to unveil the message!</p>
+            
+            <div class="scratch-card-wrapper">
+                <div class="scratch-reveal-content">
+                    <i class="fa-solid fa-crown crown-icon"></i>
+                    <h3>Cordially Invited</h3>
+                    <p>We request the pleasure of your company at our Wedding Reception as we embark on this beautiful journey of togetherness.</p>
+                    <div class="time-badge">
+                        <i class="fa-regular fa-clock"></i> 7:00 PM Onwards
+                    </div>
+                </div>
+                <canvas id="scratchCanvas" width="340" height="220"></canvas>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section scroll-reveal">
+            <div class="section-title">
+                <span class="sub-title">The Grand Event Begins In</span>
+                <h2>Countdown To Celebration</h2>
+                <div class="gold-underline"></div>
+            </div>
+
+            <div class="timer-container" id="timer">
+                <div class="time-box"><span id="days" class="time-num">00</span><span class="time-label">Days</span></div>
+                <div class="time-box"><span id="hours" class="time-num">00</span><span class="time-label">Hours</span></div>
+                <div class="time-box"><span id="minutes" class="time-num">00</span><span class="time-label">Minutes</span></div>
+                <div class="time-box"><span id="seconds" class="time-num">00</span><span class="time-label">Seconds</span></div>
+            </div>
+        </section>
+
+        <!-- Reception & Venue Details -->
+        <section class="venue-section scroll-reveal">
+            <div class="section-title">
+                <span class="sub-title">Where &amp; When</span>
+                <h2>Reception Details</h2>
+                <div class="gold-underline"></div>
+            </div>
+
+            <div class="venue-card">
+                <div class="card-inner">
+                    <div class="venue-icon">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3>Sumangali Thirumana Mahal</h3>
+                    <p class="venue-address">
+                        <i class="fa-solid fa-location-dot gold-icon"></i> Salem, Tamil Nadu, India
+                    </p>
+                    <div class="venue-info-grid">
+                        <div class="info-item">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <div>
+                                <h4>Date</h4>
+                                <p>12 September 2026</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <div>
+                                <h4>Timing</h4>
+                                <p>7:00 PM Onwards</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com/?q=Sumangali+Thirumana+Mahal+Salem" target="_blank" rel="noopener noreferrer" class="btn-gold map-btn">
+                        <i class="fa-solid fa-map-location-dot"></i> Open Location in Google Maps
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing Message -->
+        <section class="closing-section scroll-reveal">
+            <div class="closing-card">
+                <i class="fa-solid fa-heart heart-icon"></i>
+                <h2 class="closing-quote">"Your Presence Will Make Our Celebration Truly Special"</h2>
+                <p class="closing-names">With Love, M.S. Sheshathri ❤️ S. Janani</p>
+                <div class="closing-hashtag">#ShaMa</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 M.S. Sheshathri &amp; S. Janani. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
