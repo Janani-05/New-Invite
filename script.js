@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     /* ==========================================
-       1. AUDIO PLAYBACK & OVERLAY CONTROLS
+       1. ENVELOPE OPEN & AUDIO CONTROLS
        ========================================== */
     const bgMusic = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
     const musicIcon = document.getElementById('musicIcon');
     const entranceOverlay = document.getElementById('entranceOverlay');
+    const envelopeBtn = document.getElementById('envelopeBtn');
     const enterBtn = document.getElementById('enterBtn');
     let isPlaying = false;
 
@@ -21,17 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (enterBtn) {
-        enterBtn.addEventListener('click', () => {
-            playAudio();
+    function triggerOpenEnvelope() {
+        if (envelopeBtn) envelopeBtn.classList.add('open');
+        playAudio();
+
+        setTimeout(() => {
             if (entranceOverlay) {
                 entranceOverlay.style.opacity = '0';
                 setTimeout(() => {
                     entranceOverlay.style.display = 'none';
-                }, 500);
+                }, 600);
             }
-        });
+        }, 750);
     }
+
+    if (enterBtn) enterBtn.addEventListener('click', triggerOpenEnvelope);
+    if (envelopeBtn) envelopeBtn.addEventListener('click', triggerOpenEnvelope);
 
     if (musicBtn) {
         musicBtn.addEventListener('click', (e) => {
